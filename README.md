@@ -4,9 +4,9 @@
 ## 📌 Member
 <br/>
 <table align="center">
-<tr >
-<td align="center"><a href="https://github.com/kminjee"><img  src="https://avatars.githubusercontent.com/kminjee" width="100%"  height="50%"/></a></td>
-<td align="center"><a href="https://github.com/kminjee"><img src="https://avatars.githubusercontent.com/kminjee" width="100%"  height="50%"/></a></td>></td>
+<tr>
+<td align="center"><a href="https://github.com/LoggingCo"><img  src="https://avatars.githubusercontent.com/LoggingCo" width="25%"  height="25%"/></a></td>
+<td align="center"><a href="https://github.com/kminjee"><img src="https://avatars.githubusercontent.com/kminjee" width="25%"  height="25%"/></a></td></td>
 </tr>
 <tr>
 <td align="center"><b>김성용</b></td>
