@@ -1,11 +1,9 @@
-import { DefaultTheme } from 'styled-components';
-
 const blackPalette = {
   white: '#ffffff',
   black: '#222222',
   fontColor: '#222222',
   fontSubColor: '#ffffff',
-  primary: '#d9d9d9',
+  primary: '#4E4E4E',
   secondary: '#E1BF45',
 } as const;
 
@@ -33,7 +31,7 @@ const lineHeight = {
   xLarge: '28px',
 } as const;
 
-const theme: DefaultTheme = (mode: boolean) => {
+const theme = (mode: boolean) => {
   return {
     palette: mode ? blackPalette : whitePalette,
     fontSize,

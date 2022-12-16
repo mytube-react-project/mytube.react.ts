@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import * as S from './style';
 
 export interface ButtonProps {
-  variant: 'primary' | 'text' | 'default';
+  variant: 'primary' | 'text';
   size: 'small' | 'medium' | 'large' | 'full';
   shape: 'square' | 'round';
   children: ReactNode;
