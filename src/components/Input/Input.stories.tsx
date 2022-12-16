@@ -42,3 +42,8 @@ export const XxLarge = Template.bind({});
 XxLarge.args = {
   inputSize: 'xxLarge',
 };
+
+export const Full = Template.bind({});
+Full.args = {
+  inputSize: 'full',
+};
