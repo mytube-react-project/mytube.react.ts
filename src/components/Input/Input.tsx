@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import * as S from './style';
 
 export interface InputProps {
-  inputSize: 'small' | 'medium' | 'large' | 'full';
+  inputSize: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge' | 'full';
   shape: 'square' | 'round';
   children: ReactNode;
 }
