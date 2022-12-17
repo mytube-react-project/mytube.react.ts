@@ -1,11 +1,19 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RecoilRoot } from 'recoil';
 import { ThemeProvider } from 'styled-components';
 import theme from './libs/styles/theme';
 
 function App() {
   const themeConfig = theme(true);
-  console.log(themeConfig);
+  const qureyClient = new QueryClient();
 
-  return <ThemeProvider theme={themeConfig}>:)</ThemeProvider>;
+  return (
+    <QueryClientProvider client={qureyClient}>
+      <RecoilRoot>
+        <ThemeProvider theme={themeConfig}>:)</ThemeProvider>
+      </RecoilRoot>
+    </QueryClientProvider>
+  );
 }
 
 export default App;
