@@ -33,7 +33,7 @@ const lineHeight = {
 
 const theme = (mode: boolean) => {
   return {
-    palette: mode ? blackPalette : whitePalette,
+    palette: mode ? whitePalette : blackPalette,
     fontSize,
     lineHeight,
   };

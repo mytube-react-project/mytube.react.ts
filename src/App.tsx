@@ -1,17 +1,22 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { RecoilRoot } from 'recoil';
+import { lightAndDarkThemeAtom } from 'atoms/util/atom';
+import Layout from 'components/Layout';
+import GlobalStyles from 'libs/styles/globals';
+import { useRecoilValue } from 'recoil';
 import { ThemeProvider } from 'styled-components';
 import theme from './libs/styles/theme';
 
 function App() {
-  const themeConfig = theme(true);
+  const mode = useRecoilValue(lightAndDarkThemeAtom);
+  const themeConfig = theme(mode);
   const qureyClient = new QueryClient();
 
   return (
     <QueryClientProvider client={qureyClient}>
-      <RecoilRoot>
-        <ThemeProvider theme={themeConfig}>:)</ThemeProvider>
-      </RecoilRoot>
+      <GlobalStyles />
+      <ThemeProvider theme={themeConfig}>
+        <Layout />
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
