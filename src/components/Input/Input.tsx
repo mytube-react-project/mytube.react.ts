@@ -4,15 +4,10 @@ import * as S from './style';
 export interface InputProps {
   inputSize: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge' | 'full';
   shape: 'square' | 'round';
-  children: ReactNode;
 }
 
-function Input({ inputSize, shape, children, ...rest }: InputProps) {
-  return (
-    <S.Input inputSize={inputSize} shape={shape} {...rest}>
-      {children}
-    </S.Input>
-  );
+function Input({ inputSize, shape, ...rest }: InputProps) {
+  return <S.Input inputSize={inputSize} shape={shape} {...rest} />;
 }
 
 export default Input;

@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
-const GlobalStyles = createGlobalStyle`
+export const globalStyle = (theme: any) => createGlobalStyle`
   ${reset}
     * {
       box-sizing: border-box;  
@@ -14,7 +14,8 @@ const GlobalStyles = createGlobalStyle`
 
     body {
       line-height: 1;
-      background-color: #EBF1F4;
+      background-color: ${theme.palette.primary};
+      color: ${theme.palette.fontSubColor};
     }
 
     body,
@@ -66,4 +67,3 @@ const GlobalStyles = createGlobalStyle`
       outline: none;
     }
   `;
-export default GlobalStyles;
