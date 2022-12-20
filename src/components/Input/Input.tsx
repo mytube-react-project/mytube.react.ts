@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import { InputHTMLAttributes } from 'react';
 import * as S from './style';
 
-export interface InputProps {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   inputSize: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge' | 'full';
   shape: 'square' | 'round';
 }
