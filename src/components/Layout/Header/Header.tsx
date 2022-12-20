@@ -4,7 +4,7 @@ import TokenRepository from 'repository/tokenRepository';
 import { useRecoilState } from 'recoil';
 import { lightAndDarkThemeAtom } from 'atoms/util/atom';
 
-const Header = () => {
+function Header() {
   const MY_TUBE = 'MY TUBE';
   const WELCOME_MY_TUBE = 'WELCOME MY TUBE';
   const [lgintAndDarkMode, setLightAndDarkMode] = useRecoilState(lightAndDarkThemeAtom);
@@ -29,6 +29,6 @@ const Header = () => {
       </S.ButtonWrapper>
     </S.HeaderWrapper>
   );
-};
+}
 
 export default Header;
