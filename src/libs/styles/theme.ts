@@ -5,6 +5,7 @@ const blackPalette = {
   fontSubColor: '#ffffff',
   primary: '#4E4E4E',
   secondary: '#E1BF45',
+  borderColor: '#4E4E4E',
 } as const;
 
 const whitePalette = {
@@ -14,6 +15,7 @@ const whitePalette = {
   fontSubColor: '#222222',
   primary: '#ffffff',
   secondary: '#AC0000',
+  borderColor: '#222222',
 } as const;
 
 const fontSize = {
@@ -34,6 +36,7 @@ const lineHeight = {
 const theme = (mode: boolean) => {
   return {
     palette: mode ? whitePalette : blackPalette,
+    borderColor: mode ? whitePalette : blackPalette,
     fontSize,
     lineHeight,
   };

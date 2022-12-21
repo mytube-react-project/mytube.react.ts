@@ -8,7 +8,7 @@ interface LineStyleProps {
 
 export const Wrapper = styled.div<LineStyleProps>`
   display: flex;
-  justify-content: ${({ direction }) => (direction === 'left' ? 'flex-start' : 'fflex-end')};
+  justify-content: ${({ direction }) => (direction === 'left' ? 'flex-start' : 'flex-end')};
   align-items: center;
   width: 100%;
   height: 100%;
