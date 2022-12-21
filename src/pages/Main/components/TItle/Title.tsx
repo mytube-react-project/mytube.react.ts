@@ -1,13 +1,26 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-function Title({ children, ...rest }: { children: React.ReactNode }) {
-  return <S.Wrapper {...rest}>{children}</S.Wrapper>;
+interface TitleProps extends React.HTMLAttributes<HTMLDivElement> {
+  align?: 'left' | 'center' | 'right';
+  children: React.ReactNode;
+}
+
+interface TitleStyleProps {
+  align?: 'left' | 'center' | 'right';
+}
+
+function Title({ children, align, ...rest }: TitleProps) {
+  return (
+    <S.Wrapper align={align} {...rest}>
+      {children}
+    </S.Wrapper>
+  );
 }
 export default Title;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<TitleStyleProps>`
   font-size: ${({ theme }) => theme.fontSize.large};
-  padding-left: 32px;
+  text-align: ${({ align }) => align};
 `;
 
 const S = {

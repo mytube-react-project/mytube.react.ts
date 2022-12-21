@@ -28,14 +28,14 @@ const inputSizeCSS = {
   `,
 
   xxLarge: css`
-    width: 377px;
-    height: 42px;
+    width: 488px;
+    height: 55px;
     padding: 16px 0;
     font-size: ${({ theme }) => theme.fontSize.small};
   `,
 
   full: css`
-    width: 932px;
+    width: 100%;
     height: 55px;
     padding: 16px 0;
     font-size: ${({ theme }) => theme.fontSize.small};
