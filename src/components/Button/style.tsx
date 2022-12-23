@@ -48,6 +48,8 @@ const sizeCSS = {
     padding: 16px 0;
     font-size: ${({ theme }) => theme.fontSize.small};
   `,
+
+  default: css``,
 };
 
 export const Button = styled.button<ButtonProps>`

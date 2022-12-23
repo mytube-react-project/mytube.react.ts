@@ -3,7 +3,7 @@ import * as S from './style';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant: 'primary' | 'text';
-  size: 'small' | 'medium' | 'large' | 'full';
+  size: 'small' | 'medium' | 'large' | 'full' | 'default';
   shape: 'square' | 'round';
   children: ReactNode;
 }

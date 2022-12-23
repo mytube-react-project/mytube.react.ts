@@ -1,9 +1,9 @@
-import { flexAlignCenter, flexJustifyBetween } from 'libs/styles/common';
+import { flexJustifyBetween } from 'libs/styles/common';
 import styled from 'styled-components';
 
 export const NavWrapper = styled.div`
   ${flexJustifyBetween};
-  ${flexAlignCenter};
+  align-items: center;
   margin: 15px 24px;
 
   button {
