@@ -1,7 +1,7 @@
 import { Button } from 'components/Button/style';
 import { Input } from 'components/Input/style';
 import { flexCenter } from 'libs/styles/common';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 import styled from 'styled-components';
 
 interface SignUpFormProps {
