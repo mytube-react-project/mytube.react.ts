@@ -1,5 +1,6 @@
 import { Line } from 'components/Line/style';
 import Title from '../Title/Title';
+
 import * as S from './style';
 
 function MainDesc() {
