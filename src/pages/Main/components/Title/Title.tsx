@@ -1,4 +1,5 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import React from 'react';
 
 interface TitleProps extends React.HTMLAttributes<HTMLDivElement> {
   align?: 'left' | 'center' | 'right';
