@@ -7,4 +7,5 @@ export default {
 };
 
 const Template: Story = (args) => <Video {...args} />;
+
 export const Default = Template.bind({});

@@ -53,6 +53,7 @@ const shapeCSS = {
 export const Input = styled.input<InputProps>`
   ${({ inputSize }) => inputSizeCSS[inputSize]}
   ${({ shape }) => shapeCSS[shape]}
+  border: 1px solid #999;
   padding-left: 1rem;
   background-color: #fff;
 `;

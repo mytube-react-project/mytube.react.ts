@@ -5,9 +5,9 @@ import styled from 'styled-components';
 function LoginForm() {
   return (
     <S.Form>
-      <Input inputSize={'full'} shape={'square'} placeholder={'E-MAIL'} />
-      <Input inputSize={'full'} shape={'square'} placeholder={'PASSWORD'} />
-      <Button variant={'primary'} size={'full'} shape={'square'}>
+      <Input inputSize={'full'} shape={'square'} placeholder="E-MAIL" />
+      <Input inputSize={'full'} shape={'square'} placeholder="PASSWORD" />
+      <Button variant={'primary'} size={'full'} shape="square">
         L O G I N
       </Button>
     </S.Form>
