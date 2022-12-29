@@ -6,8 +6,15 @@ export const FilterWrapper = styled.div`
   justify-content: flex-end;
   margin: 15px 24px;
 
-  button {
-    padding-left: 15px;
+  div {
+    margin-left: 15px;
+    padding-bottom: 2px;
     color: ${({ theme }) => theme.palette.fontSubColor};
+    cursor: pointer;
+  }
+
+  .select {
+    border-bottom: 1px solid;
+    border-color: ${({ theme }) => theme.palette.fontSubColor};
   }
 `;
