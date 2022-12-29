@@ -1,7 +1,3 @@
 export interface MytubeApiImpl {
-  /*
-  mytube (crd)
-  already (crd)
-  marked (crd) * 9
-  */
+  getVideoList: (params: any) => Promise<any>;
 }

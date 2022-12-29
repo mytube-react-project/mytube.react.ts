@@ -1,6 +1,3 @@
 export interface CategoryImpl {
-  /*
-  1차 (crud)
-  2차 (crud) * 8
-  */
+  getVideoList: (params: any) => Promise<any>;
 }

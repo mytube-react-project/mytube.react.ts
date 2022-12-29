@@ -6,6 +6,8 @@ import { ThemeProvider } from 'styled-components';
 import theme from './libs/styles/theme';
 import { useRoutes } from 'react-router-dom';
 import Router from 'routes/Router';
+import { worker } from '__mock__/browser';
+import axios from 'axios';
 
 function App() {
   const mode = useRecoilValue(lightAndDarkThemeAtom);
@@ -13,6 +15,8 @@ function App() {
   const qureyClient = new QueryClient();
   const routes = useRoutes(Router());
   const GlobalStyle = globalStyle(themeConfig);
+
+  worker.start();
 
   return (
     <QueryClientProvider client={qureyClient}>
