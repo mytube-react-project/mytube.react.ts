@@ -1,6 +1,6 @@
 import Layout from 'components/Layout';
 import MainPage from 'pages/Main/MainPage';
-import MyTubePage from 'pages/MyTube/MytubePage';
+import MyTubePage from 'pages/MyTube/MyTubePage';
 
 const Router = () => [
   {
