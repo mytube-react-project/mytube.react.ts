@@ -3,7 +3,6 @@ import * as S from './style';
 import { Modal } from '@mui/material';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ClearIcon from '@mui/icons-material/Clear';
-import Input from 'components/Input/Input';
 
 function ModalSheet(props: any) {
   const { open } = props;
@@ -17,7 +16,6 @@ function ModalSheet(props: any) {
             <ClearIcon />
           </button>
         </S.SheetHeader>
-        <Input inputSize="full" shape="round" />
         <S.SheetContent>
           <S.CategoryBox>
             <S.Title color="first">Frist Category</S.Title>
