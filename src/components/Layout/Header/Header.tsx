@@ -3,6 +3,8 @@ import Button from 'components/Button/Button';
 import TokenRepository from 'repository/tokenRepository';
 import { useRecoilState } from 'recoil';
 import { lightAndDarkThemeAtom } from 'atoms/util/atom';
+import Brightness2Icon from '@mui/icons-material/Brightness2';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 function Header() {
   const MY_TUBE = 'MY TUBE';
@@ -24,7 +26,7 @@ function Header() {
           </Button>
         )}
         <S.ModeBtn onClick={onChangeLightAndDarkTheme}>
-          {lgintAndDarkMode ? 'BLACK' : 'LIGHT'}
+          {lgintAndDarkMode ? <Brightness2Icon /> : <LightModeIcon />}
         </S.ModeBtn>
       </S.ButtonWrapper>
     </S.HeaderWrapper>
