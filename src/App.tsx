@@ -7,7 +7,6 @@ import theme from './libs/styles/theme';
 import { useRoutes } from 'react-router-dom';
 import Router from 'routes/Router';
 import { worker } from '__mock__/browser';
-import axios from 'axios';
 
 function App() {
   const mode = useRecoilValue(lightAndDarkThemeAtom);

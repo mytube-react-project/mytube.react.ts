@@ -1,11 +1,11 @@
 import { rest } from 'msw';
 
 export const getFirstCate = rest.get('/api/cate', (req, res, ctx) => {
-  return res(ctx.json({}));
+  return res(ctx.json([]));
 });
 
 export const getSecondCate = rest.get('/api/cate/:id', (req, res, ctx) => {
-  return res(ctx.json({}));
+  return res(ctx.json([]));
 });
 
 export const addFirstCate = rest.post('/api/cate', async (req, res, ctx) => {
