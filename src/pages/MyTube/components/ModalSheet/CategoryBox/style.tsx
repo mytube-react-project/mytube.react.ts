@@ -7,9 +7,9 @@ export const CategoryBox = styled.div`
   border-radius: 16px;
   background-color: #fff;
 
-  /* input {
-    border: none;
-  } */
+  input {
+    margin: 2px 0;
+  }
 `;
 
 export const Title = styled.div`

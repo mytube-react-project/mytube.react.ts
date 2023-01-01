@@ -14,7 +14,7 @@ function CategoryBox({ title }: CategoryBoxType) {
     setVisible(!visible);
   };
 
-  const onChange = (event: any) => {
+  const onChangeValue = (event: any) => {
     const text = event.target.value.trim();
     setInputText(text);
   };
@@ -33,7 +33,7 @@ function CategoryBox({ title }: CategoryBoxType) {
         {title} +
       </S.Title>
       {visible && (
-        <Input inputSize="medium" shape="square" onChange={onChange} onKeyDown={addCategory} />
+        <Input inputSize="medium" shape="square" onChange={onChangeValue} onKeyDown={addCategory} />
       )}
     </S.CategoryBox>
   );
