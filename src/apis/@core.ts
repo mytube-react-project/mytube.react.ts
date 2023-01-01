@@ -2,14 +2,14 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import TokenRepository from 'repository/tokenRepository';
 
 interface ApiCoreType {
-  baseURL: string;
+  baseURL: string | undefined;
   tokenActive: boolean;
   toastActive?: boolean | undefined;
   option?: any;
 }
 
 export class ApiCore {
-  baseURL: string;
+  baseURL: string | undefined;
   tokenActive: boolean;
   toastActive?: boolean | undefined;
   option?: any;
@@ -21,7 +21,7 @@ export class ApiCore {
     this.option = option;
   }
 
-  public http() {
+  public axios() {
     const Axios: AxiosInstance = axios.create({
       baseURL: this.baseURL,
       headers: {
@@ -48,3 +48,4 @@ export class ApiCore {
     return Axios;
   }
 }
+export default ApiCore;

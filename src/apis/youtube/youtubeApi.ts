@@ -1,7 +1,13 @@
 import { YoutubeApiImpl } from './youtubeImpl';
 
 export class YouTubeApi implements YoutubeApiImpl {
+  http: any;
+
+  constructor(http: any) {
+    this.http = http;
+  }
+
   getVideoList(params: any): Promise<any> {
-    throw new Error('Method not implemented.');
+    return this.http.axios().get('/search', params);
   }
 }
