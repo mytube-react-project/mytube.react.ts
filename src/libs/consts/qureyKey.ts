@@ -1,4 +1,4 @@
 export const QueryKeyConsts = {
   VIDEO_LIST: 'videoList',
-  VIDEO_DETAIL: 'videoDetail',
+  GET_FIRST_CATE: 'getFirstCate',
 };

@@ -14,6 +14,7 @@ function App() {
   const qureyClient = new QueryClient();
   const routes = useRoutes(Router());
   const GlobalStyle = globalStyle(themeConfig);
+
   worker.start();
 
   return (

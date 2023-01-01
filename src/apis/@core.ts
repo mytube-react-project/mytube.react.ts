@@ -1,8 +1,9 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import TokenRepository from 'repository/tokenRepository';
+import CustomAPiError from './@error';
 
 interface ApiCoreType {
-  baseURL: string | undefined;
+  baseURL?: string | undefined;
   tokenActive: boolean;
   toastActive?: boolean | undefined;
   option?: any;
@@ -30,6 +31,15 @@ export class ApiCore {
       },
       ...this.option,
     });
+
+    Axios.interceptors.response.use(
+      (response: any) => {
+        return response;
+      },
+      (error: AxiosError) => {
+        return new CustomAPiError(error.message, error);
+      },
+    );
 
     Axios.interceptors.request.use(
       (config: AxiosRequestConfig<any>) => {
