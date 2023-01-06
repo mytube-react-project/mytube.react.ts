@@ -1,41 +1,14 @@
-import * as S from './style';
-import { KeyboardEvent, useState } from 'react';
-import Input from 'components/Input/Input';
+import FirstCategoryBox from './FirstCategoryBox/FirstCategoryBox';
+import SecondCategoryBox from './SecondCategory.tsx/SecondCategory';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
-export interface CategoryBoxType {
-  title: string;
-}
-
-function CategoryBox({ title }: CategoryBoxType) {
-  const [visible, setVisible] = useState(false);
-  const [inputText, setInputText] = useState('');
-
-  const openInput = () => {
-    setVisible(!visible);
-  };
-
-  const onChangeValue = (event: any) => {
-    const text = event.target.value.trim();
-    setInputText(text);
-  };
-
-  const addCategory = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (!inputText) return;
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      console.log(inputText);
-    }
-  };
-
+function CategoryBox() {
   return (
-    <S.CategoryBox>
-      <S.Title color="first" onClick={openInput}>
-        {title} +
-      </S.Title>
-      {visible && (
-        <Input inputSize="medium" shape="square" onChange={onChangeValue} onKeyDown={addCategory} />
-      )}
-    </S.CategoryBox>
+    <>
+      <FirstCategoryBox />
+      <ArrowCircleRightIcon fontSize="large" />
+      <SecondCategoryBox />
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import ApiCore from './@core';
-import { CategoryApi } from './category/catrgoryApi';
+import { CategoryApi } from './category/categoryApi';
 import { YouTubeApi } from './youtube/youtubeApi';
 
 const YoutubeHttp = new ApiCore({

@@ -1,7 +1,5 @@
-// import Nav from '../Nav/Nav';
 import * as S from './style';
 import { Modal } from '@mui/material';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ClearIcon from '@mui/icons-material/Clear';
 import CategoryBox from './CategoryBox/CategoryBox';
 
@@ -18,9 +16,7 @@ function ModalSheet(props: any) {
           </button>
         </S.SheetHeader>
         <S.SheetContent>
-          <CategoryBox title="Frist Category" />
-          <ArrowCircleRightIcon fontSize="large" />
-          <CategoryBox title="Second Category" />
+          <CategoryBox />
         </S.SheetContent>
       </S.Sheet>
     </Modal>
