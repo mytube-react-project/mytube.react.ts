@@ -1,1 +1,3 @@
-export interface CategoryImpl {}
+export interface CategoryImpl {
+  getVideoList: (params: any) => Promise<any>;
+}

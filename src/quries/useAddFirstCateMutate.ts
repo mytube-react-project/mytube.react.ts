@@ -10,7 +10,6 @@ const useAddFirstCateMutate = () => {
       queryClient.invalidateQueries([QueryKeyConsts.GET_FIRST_CATE]);
     },
     onError: (error: AxiosError) => {
-      console.log(error);
       new CustomAPiError(error.message, error);
     },
   });

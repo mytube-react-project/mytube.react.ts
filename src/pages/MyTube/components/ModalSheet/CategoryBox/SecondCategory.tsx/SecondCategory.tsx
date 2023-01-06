@@ -1,10 +1,10 @@
 import * as S from './style';
 import { KeyboardEvent, useState } from 'react';
 import Input from 'components/Input/Input';
-import addFirstCateMutate from 'quries/addFirstCateMutate';
-import updateFirstCateMutate from 'quries/updateFirstCateMutate';
-import deleteFirstCateMutate from 'quries/deleteFirstCateMutate';
-// import getFistCateListQuery from 'quries/getFirstCateListQuery';
+import useAddFirstCateMutate from 'quries/useAddFirstCateMutate';
+import useUpdateFirstCateMutate from 'quries/useUpdateFirstCateMutate';
+import useDeleteFirstCateMutate from 'quries/useDeleteFirstCateMutate';
+// import useGetFistCateListQuery from 'quries/useGetFirstCateListQuery';
 
 type CategoryType = {
   id: number;
@@ -33,10 +33,10 @@ function SecondCategoryBox() {
     },
   ]);
 
-  // const getFirstCategory = getFistCateListQuery();
-  const addFirstCategory = addFirstCateMutate();
-  const updateFirstCategory = updateFirstCateMutate();
-  const deleteFirstCategory = deleteFirstCateMutate();
+  // const getFirstCategory = useGetFirstCateMutate();
+  const addFirstCategory = useAddFirstCateMutate();
+  const updateFirstCategory = useUpdateFirstCateMutate();
+  const deleteFirstCategory = useDeleteFirstCateMutate();
 
   const openInput = () => {
     setOpen(!open);
@@ -57,7 +57,6 @@ function SecondCategoryBox() {
   };
 
   const editCategory = (id: number) => {
-    console.log(id, 'success');
     const category_copy = [...categoryList];
     const selectedCategory = category_copy.find((cate) => cate.id === id);
     if (!selectedCategory) return;
@@ -71,7 +70,7 @@ function SecondCategoryBox() {
     if (event.key === 'Enter') {
       event.preventDefault();
       updateFirstCategory.mutate({ id: id, name: inputText });
-      // editCategory(id);
+      editCategory(id);
     }
   };
 
