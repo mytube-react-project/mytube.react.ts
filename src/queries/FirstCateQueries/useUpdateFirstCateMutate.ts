@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import CustomAPiError from 'apis/@error';
 import axios, { AxiosError } from 'axios';
-import { QueryKeyConsts } from '../libs/consts/qureyKey';
+import { QueryKeyConsts } from '../../libs/consts/qureyKey';
 
 const useUpdateFirstCateMutate = () => {
   const queryClient = useQueryClient();

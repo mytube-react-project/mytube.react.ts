@@ -1,42 +1,34 @@
 import * as S from './style';
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import Input from 'components/Input/Input';
-import useAddFirstCateMutate from 'quries/useAddFirstCateMutate';
-import useUpdateFirstCateMutate from 'quries/useUpdateFirstCateMutate';
-import useDeleteFirstCateMutate from 'quries/useDeleteFirstCateMutate';
-// import useGetFistCateListQuery from 'quries/useGetFirstCateListQuery';
+import useGetSecondCateListQuery from 'queries/SecondCateQueries/useGetSecondCateListQuery';
+import useAddSecondCateMutate from 'queries/SecondCateQueries/useAddSecondCateMutate';
+import useUpdateSecondCateMutate from 'queries/SecondCateQueries/useUpdateSecondCateMutate';
+import useDeleteSecondCateMutate from 'queries/SecondCateQueries/useDeleteSecondCateMutate';
 
 type CategoryType = {
   id: number;
-  name: string;
+  cate: string;
   open: boolean;
 };
 
 function SecondCategoryBox() {
   const [open, setOpen] = useState(false);
   const [inputText, setInputText] = useState('');
-  const [categoryList, setCategoryList] = useState<CategoryType[]>([
-    {
-      id: 1,
-      name: 'STUDY',
-      open: false,
-    },
-    {
-      id: 2,
-      name: 'COOKING',
-      open: false,
-    },
-    {
-      id: 3,
-      name: 'MUSIC',
-      open: false,
-    },
-  ]);
+  const [secondCategoryList, setSecondCategoryList] = useState<CategoryType[]>([]);
 
-  // const getFirstCategory = useGetFirstCateMutate();
-  const addFirstCategory = useAddFirstCateMutate();
-  const updateFirstCategory = useUpdateFirstCateMutate();
-  const deleteFirstCategory = useDeleteFirstCateMutate();
+  const firstCateId = 14363;
+  const getSecondCategory = useGetSecondCateListQuery(firstCateId);
+  const addSecondCategory = useAddSecondCateMutate();
+  const updateSecondCategory = useUpdateSecondCateMutate();
+  const deleteSecondCategory = useDeleteSecondCateMutate();
+
+  const { data } = getSecondCategory;
+
+  useEffect(() => {
+    if (!data) return;
+    setSecondCategoryList([...data]);
+  }, [data]);
 
   const openInput = () => {
     setOpen(!open);
@@ -51,31 +43,33 @@ function SecondCategoryBox() {
     if (event.nativeEvent.isComposing || !inputText) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      addFirstCategory.mutate({ name: inputText });
+      addSecondCategory.mutate({ id: firstCateId, cate: inputText });
       setOpen(false);
     }
   };
 
   const editCategory = (id: number) => {
-    const category_copy = [...categoryList];
+    const category_copy = [...secondCategoryList];
     const selectedCategory = category_copy.find((cate) => cate.id === id);
     if (!selectedCategory) return;
-    if (selectedCategory.open === true) return;
+    category_copy.forEach((cate) => {
+      cate.open = selectedCategory.id !== id && false;
+    });
     selectedCategory.open = !selectedCategory.open;
-    setCategoryList(category_copy);
+    setSecondCategoryList(category_copy);
   };
 
   const updateCategory = (id: number, event: KeyboardEvent<HTMLInputElement>) => {
     if (event.nativeEvent.isComposing) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      updateFirstCategory.mutate({ id: id, name: inputText });
+      updateSecondCategory.mutate({ id: firstCateId, secondId: id, cate: inputText });
       editCategory(id);
     }
   };
 
   const deleteCategory = (id: number) => {
-    deleteFirstCategory.mutate({ id: id });
+    deleteSecondCategory.mutate({ id: firstCateId, secondId: id });
   };
 
   return (
@@ -90,19 +84,19 @@ function SecondCategoryBox() {
             onKeyDown={addCategory}
           />
         )}
-        {categoryList.map((value) =>
+        {secondCategoryList.map((value) =>
           value.open ? (
             <Input
               key={value.id}
               inputSize="medium"
               shape="square"
-              defaultValue={value.name}
+              defaultValue={value.cate}
               onChange={onChangeValue}
               onKeyDown={(e) => updateCategory(value.id, e)}
             />
           ) : (
             <S.Category key={value.id}>
-              {value.name}
+              {value.cate}
               <S.CategoryButton>
                 <S.CategoryEditButton onClick={() => editCategory(value.id)}>
                   ⚙️

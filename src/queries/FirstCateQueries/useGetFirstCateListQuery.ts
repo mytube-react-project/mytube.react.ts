@@ -14,6 +14,11 @@ const useGetFistCateListQuery = () => {
       refetchOnReconnect: false,
       refetchInterval: false,
       refetchIntervalInBackground: false,
+      onSuccess: (data: any) => {
+        for (const cate of data) {
+          cate.open = false;
+        }
+      },
       onError: (error: AxiosError) => {
         new CustomAPiError(error.message, error);
       },
