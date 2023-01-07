@@ -17,12 +17,10 @@ class CustomAPiError<T = any> extends Error {
     this.request = error.request;
     this.response = error.response;
     this.isAxiosError = error.isAxiosError;
-    this.status = this.response!.status;
+    this.status = this.response?.status;
     this.toJSON = error.toJSON;
 
     let name = 'ApiError';
-
-    console.log('error', error);
 
     if (this.status === 400) {
       name = 'BadRequest';
