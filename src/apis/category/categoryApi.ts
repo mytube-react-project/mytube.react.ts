@@ -7,7 +7,7 @@ export class CategoryApi implements CategoryImpl {
     this.http = httip;
   }
 
-  getVideoList(params: any): Promise<any> {
+  getVideoList(): Promise<any> {
     throw new Error('Method not implemented.');
   }
 }

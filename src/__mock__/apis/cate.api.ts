@@ -1,11 +1,41 @@
 import { rest } from 'msw';
 
 export const getFirstCate = rest.get('/api/cate', (req, res, ctx) => {
-  return res(ctx.json([]));
+  return res(
+    ctx.json([
+      {
+        id: 14363,
+        name: 'STUDY',
+      },
+      {
+        id: 64573,
+        name: 'COOKING',
+      },
+      {
+        id: 26597,
+        name: 'MUSIC',
+      },
+    ]),
+  );
 });
 
 export const getSecondCate = rest.get('/api/cate/:id', (req, res, ctx) => {
-  return res(ctx.json([]));
+  return res(
+    ctx.json([
+      {
+        id: 12443,
+        cate: 'JavaScript',
+      },
+      {
+        id: 66969,
+        cate: 'Angular',
+      },
+      {
+        id: 73821,
+        cate: 'NodeJs',
+      },
+    ]),
+  );
 });
 
 export const addFirstCate = rest.post('/api/cate', async (req, res, ctx) => {
@@ -25,6 +55,7 @@ export const addFirstCate = rest.post('/api/cate', async (req, res, ctx) => {
 });
 
 export const addSecondCate = rest.post('/api/cate/:id', async (req, res, ctx) => {
+  const firstId = req.params.id;
   let cate;
 
   await req.json().then((data) => {
@@ -33,6 +64,7 @@ export const addSecondCate = rest.post('/api/cate/:id', async (req, res, ctx) =>
 
   return res(
     ctx.json({
+      firstId,
       id: Math.floor(Math.random() * 100000 + 1),
       cate,
     }),

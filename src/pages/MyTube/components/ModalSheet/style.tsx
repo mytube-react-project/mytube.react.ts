@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { absoluteCenter, flexAlignCenter, flexJustifyBetween } from 'libs/styles/common';
+import { absoluteCenter, flexJustifyBetween } from 'libs/styles/common';
 
 export const Sheet = styled.div`
   ${absoluteCenter};

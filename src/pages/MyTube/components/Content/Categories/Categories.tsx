@@ -10,7 +10,7 @@ type CategoryChildrenType = {
   cate: string;
 };
 
-type CategortType = {
+type CategoryType = {
   id: number;
   name: string;
   open: boolean;
@@ -18,7 +18,7 @@ type CategortType = {
 };
 
 function Categories() {
-  const [categoryList, setCategoryList] = useState<CategortType[]>([
+  const [categoryList, setCategoryList] = useState<CategoryType[]>([
     {
       id: 1,
       name: 'STUDY',

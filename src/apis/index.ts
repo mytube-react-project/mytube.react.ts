@@ -1,5 +1,5 @@
 import ApiCore from './@core';
-import { CategoryApi } from './category/catrgoryApi';
+import { CategoryApi } from './category/categoryApi';
 import { YouTubeApi } from './youtube/youtubeApi';
 
 const YoutubeHttp = new ApiCore({
@@ -15,11 +15,11 @@ const YoutubeHttp = new ApiCore({
   },
 });
 
-const BaseHttp = new ApiCore({
-  baseURL: process.env.REACT_APP_BASE_API_URL,
-  tokenActive: true,
-  toastActive: true,
-});
+// const BaseHttp = new ApiCore({
+//   baseURL: process.env.REACT_APP_BASE_API_URL,
+//   tokenActive: true,
+//   toastActive: true,
+// });
 
 const mswHttp = new ApiCore({
   tokenActive: false,
