@@ -22,3 +22,8 @@
 <br/>
 
 ## 📌 Skills
+
+
+## 📌 link
+
+<a href="https://resilient-meerkat-ebfd17.netlify.app">배포링크</a>
