@@ -6,33 +6,56 @@ export const getFirstCate = rest.get('/api/cate', (req, res, ctx) => {
       {
         id: 14363,
         name: 'STUDY',
+        children: [
+          {
+            id: 12443,
+            cate: 'JavaScript',
+          },
+          {
+            id: 66969,
+            cate: 'Angular',
+          },
+          {
+            id: 73821,
+            cate: 'NodeJs',
+          },
+        ],
       },
       {
         id: 64573,
         name: 'COOKING',
+        children: [
+          {
+            id: 77342,
+            cate: 'Cake',
+          },
+          {
+            id: 12999,
+            cate: 'Chocolate',
+          },
+        ],
       },
       {
         id: 26597,
         name: 'MUSIC',
-      },
-    ]),
-  );
-});
-
-export const getSecondCate = rest.get('/api/cate/:id', (req, res, ctx) => {
-  return res(
-    ctx.json([
-      {
-        id: 12443,
-        cate: 'JavaScript',
-      },
-      {
-        id: 66969,
-        cate: 'Angular',
-      },
-      {
-        id: 73821,
-        cate: 'NodeJs',
+        children: [
+          {
+            id: 23567,
+            cate: 'Hiphop',
+          },
+          {
+            id: 64562,
+            cate: 'Jazz',
+          },
+          {
+            id: 43561,
+            cate: 'Rofi',
+          },
+          {
+            id: 23452,
+            cate: 'R&B',
+          },
+        ],
       },
     ]),
   );

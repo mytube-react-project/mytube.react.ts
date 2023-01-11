@@ -4,29 +4,33 @@ import Input from 'components/Input/Input';
 import useAddFirstCateMutate from 'queries/FirstCateQueries/useAddFirstCateMutate';
 import useUpdateFirstCateMutate from 'queries/FirstCateQueries/useUpdateFirstCateMutate';
 import useDeleteFirstCateMutate from 'queries/FirstCateQueries/useDeleteFirstCateMutate';
-import useGetFistCateListQuery from 'queries/FirstCateQueries/useGetFirstCateListQuery';
+import { useRecoilState } from 'recoil';
+import { firstCategoryIdAtom, allCategoryAtom } from 'atoms/category/atom';
 
 type CategoryType = {
   id: number;
   name: string;
+  children: [];
   open: boolean;
 };
 
 function FirstCategoryBox() {
+  // FIXME: 커스텀 훅 분리 필요
   const [open, setOpen] = useState(false);
   const [inputText, setInputText] = useState('');
+
+  const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
+  const [allCategory, setAllCategory] = useRecoilState(allCategoryAtom);
+
   const [categoryList, setCategoryList] = useState<CategoryType[]>([]);
 
-  const getFirstCategory = useGetFistCateListQuery();
   const addFirstCategory = useAddFirstCateMutate();
   const updateFirstCategory = useUpdateFirstCateMutate();
   const deleteFirstCategory = useDeleteFirstCateMutate();
-  const { data } = getFirstCategory;
 
   useEffect(() => {
-    if (!data) return;
-    setCategoryList([...data]);
-  }, [data]);
+    setCategoryList([...allCategory]);
+  }, []);
 
   const openInput = () => {
     setOpen(!open);
@@ -35,6 +39,10 @@ function FirstCategoryBox() {
   const onChangeValue = (event: any) => {
     const text = event.target.value.trim();
     setInputText(text);
+  };
+
+  const clickHandler = (id: number) => {
+    setFirstCategoryId(id);
   };
 
   const addCategory = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -51,9 +59,10 @@ function FirstCategoryBox() {
     const category_copy = [...categoryList];
     const selectedCategory = category_copy.find((cate) => cate.id === id);
     if (!selectedCategory) return;
-    category_copy.forEach((cate) => {
-      cate.open = selectedCategory.id !== id && false;
-    });
+
+    // category_copy.forEach((cate) => {
+    //   cate.open = selectedCategory.id !== id && false;
+    // });
     selectedCategory.open = !selectedCategory.open;
     setCategoryList(category_copy);
   };
@@ -95,7 +104,7 @@ function FirstCategoryBox() {
             />
           ) : (
             <S.Category key={value.id}>
-              {value.name}
+              <S.CategoryName onClick={() => clickHandler(value.id)}>{value.name}</S.CategoryName>
               <S.CategoryButton>
                 <S.CategoryEditButton onClick={() => editCategory(value.id)}>
                   ⚙️

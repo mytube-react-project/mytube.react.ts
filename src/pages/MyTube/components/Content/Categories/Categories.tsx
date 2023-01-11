@@ -4,6 +4,11 @@ import SubCategories from './SubCategories/SubCategories';
 import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import useGetCateListQuery from 'queries/useGetAllCategory';
+import { firstCategoryIdAtom, allCategoryAtom } from 'atoms/category/atom';
+import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { allCategorySelector } from 'atoms/category/selector';
 
 type CategoryChildrenType = {
   id: number;
@@ -18,58 +23,33 @@ type CategoryType = {
 };
 
 function Categories() {
-  const [categoryList, setCategoryList] = useState<CategoryType[]>([
-    {
-      id: 1,
-      name: 'STUDY',
-      open: true,
-      children: [
-        {
-          id: 1,
-          cate: 'JavaScript',
-        },
-        {
-          id: 2,
-          cate: 'React',
-        },
-        {
-          id: 3,
-          cate: 'Angular',
-        },
-        {
-          id: 4,
-          cate: 'NodeJs',
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'COOKING',
-      open: true,
-      children: [
-        { id: 1, cate: 'Cake' },
-        { id: 3, cate: 'Chocolate' },
-      ],
-    },
-    {
-      id: 3,
-      name: 'MUSIC',
-      open: true,
-      children: [
-        { id: 1, cate: 'Hiphop' },
-        { id: 2, cate: 'Jazz' },
-        { id: 3, cate: 'Rofi' },
-        { id: 4, cate: 'R&B' },
-      ],
-    },
-  ]);
+  const { data } = useGetCateListQuery();
+  const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
+  const [allCategories, setAllCategories] = useRecoilState(allCategorySelector);
+  const [categoryList, setCategoryList] = useState<CategoryType[]>([]);
+
+  useEffect(() => {
+    console.log(allCategories);
+    if (!data) return;
+    setCategoryList([...data]);
+    setFirstCategoryId(data[0].id);
+  }, [data]);
 
   const onToggleCategory = (id: number) => {
-    const cate_copy = [...categoryList];
-    const selectCate = cate_copy.find((cate) => cate.id === id);
-    if (!selectCate) return;
-    selectCate.open = !selectCate.open;
-    setCategoryList(cate_copy);
+    console.log(id);
+    // const cate_copy = [...categoryList];
+    // const selectCate = cate_copy.find((cate) => cate.id === id);
+    // console.log(selectCate);
+    // if (!selectCate) return;
+    // selectCate.open = !selectCate.open;
+    // setCategoryList(cate_copy);
+
+    // setAllCategories((prev) => {
+    //   const _prev: any = [...prev];
+    //   const select: any = _prev.findIndex((cate: any) => cate.id === id);
+    //   _prev[select].open = true;
+    //   return [...prev];
+    // });
   };
 
   return (
