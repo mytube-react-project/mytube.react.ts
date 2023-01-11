@@ -9,11 +9,8 @@ import { firstCategoryIdAtom, allCategoryAtom } from 'atoms/category/atom';
 import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import { allCategorySelector } from 'atoms/category/selector';
-<<<<<<< HEAD
-=======
 import { useQueryClient } from '@tanstack/react-query';
 import { QueryKeyConsts } from 'libs/consts/qureyKey';
->>>>>>> main
 
 type CategoryChildrenType = {
   id: number;
@@ -28,35 +25,6 @@ type CategoryType = {
 };
 
 function Categories() {
-<<<<<<< HEAD
-  const { data } = useGetCateListQuery();
-  const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
-  const [allCategories, setAllCategories] = useRecoilState(allCategorySelector);
-  const [categoryList, setCategoryList] = useState<CategoryType[]>([]);
-
-  useEffect(() => {
-    console.log(allCategories);
-    if (!data) return;
-    setCategoryList([...data]);
-    setFirstCategoryId(data[0].id);
-  }, [data]);
-
-  const onToggleCategory = (id: number) => {
-    console.log(id);
-    // const cate_copy = [...categoryList];
-    // const selectCate = cate_copy.find((cate) => cate.id === id);
-    // console.log(selectCate);
-    // if (!selectCate) return;
-    // selectCate.open = !selectCate.open;
-    // setCategoryList(cate_copy);
-
-    // setAllCategories((prev) => {
-    //   const _prev: any = [...prev];
-    //   const select: any = _prev.findIndex((cate: any) => cate.id === id);
-    //   _prev[select].open = true;
-    //   return [...prev];
-    // });
-=======
   const { data: categoryList } = useGetCateListQuery();
   const qureyClient = useQueryClient();
 
@@ -72,7 +40,6 @@ function Categories() {
       return cate;
     });
     qureyClient.setQueryData([QueryKeyConsts.GET_FIRST_CATE], newCategoryList);
->>>>>>> main
   };
 
   return (
