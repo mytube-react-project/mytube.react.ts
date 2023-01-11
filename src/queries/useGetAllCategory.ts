@@ -7,11 +7,7 @@ import { useSetRecoilState } from 'recoil';
 import { allCategoryAtom } from 'atoms/category/atom';
 
 const useGetAllCategoryQuery = () => {
-<<<<<<< HEAD
-  const setAllCategory = useSetRecoilState(allCategoryAtom);
-=======
   const queryClient = useQueryClient();
->>>>>>> main
   const { data, isLoading, isSuccess, error, refetch } = useQuery(
     [QueryKeyConsts.GET_FIRST_CATE],
     () => axios.get('/api/cate').then((res) => res.data),
@@ -22,9 +18,6 @@ const useGetAllCategoryQuery = () => {
       refetchInterval: false,
       refetchIntervalInBackground: false,
       onSuccess: (data: any) => {
-<<<<<<< HEAD
-        setAllCategory(data);
-=======
         queryClient.setQueriesData(
           [QueryKeyConsts.GET_FIRST_CATE],
           data.map((item: any) => {
@@ -36,7 +29,6 @@ const useGetAllCategoryQuery = () => {
             };
           }),
         );
->>>>>>> main
       },
       onError: (error: AxiosError) => {
         new CustomAPiError(error.message, error);
