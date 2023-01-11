@@ -1,10 +1,11 @@
 import * as S from './style';
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import Input from 'components/Input/Input';
-import useGetSecondCateListQuery from 'queries/SecondCateQueries/useGetSecondCateListQuery';
 import useAddSecondCateMutate from 'queries/SecondCateQueries/useAddSecondCateMutate';
 import useUpdateSecondCateMutate from 'queries/SecondCateQueries/useUpdateSecondCateMutate';
 import useDeleteSecondCateMutate from 'queries/SecondCateQueries/useDeleteSecondCateMutate';
+import { useRecoilState } from 'recoil';
+import { firstCategoryIdAtom } from 'atoms/category/atom';
 
 type CategoryType = {
   id: number;
@@ -15,20 +16,13 @@ type CategoryType = {
 function SecondCategoryBox() {
   const [open, setOpen] = useState(false);
   const [inputText, setInputText] = useState('');
+
+  const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
   const [secondCategoryList, setSecondCategoryList] = useState<CategoryType[]>([]);
 
-  const firstCateId = 14363;
-  const getSecondCategory = useGetSecondCateListQuery(firstCateId);
   const addSecondCategory = useAddSecondCateMutate();
   const updateSecondCategory = useUpdateSecondCateMutate();
   const deleteSecondCategory = useDeleteSecondCateMutate();
-
-  const { data } = getSecondCategory;
-
-  useEffect(() => {
-    if (!data) return;
-    setSecondCategoryList([...data]);
-  }, [data]);
 
   const openInput = () => {
     setOpen(!open);
@@ -43,7 +37,7 @@ function SecondCategoryBox() {
     if (event.nativeEvent.isComposing || !inputText) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      addSecondCategory.mutate({ id: firstCateId, cate: inputText });
+      addSecondCategory.mutate({ id: firstCategoryId, cate: inputText });
       setOpen(false);
     }
   };
@@ -63,13 +57,13 @@ function SecondCategoryBox() {
     if (event.nativeEvent.isComposing) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      updateSecondCategory.mutate({ id: firstCateId, secondId: id, cate: inputText });
+      updateSecondCategory.mutate({ id: firstCategoryId, secondId: id, cate: inputText });
       editCategory(id);
     }
   };
 
   const deleteCategory = (id: number) => {
-    deleteSecondCategory.mutate({ id: firstCateId, secondId: id });
+    deleteSecondCategory.mutate({ id: firstCategoryId, secondId: id });
   };
 
   return (

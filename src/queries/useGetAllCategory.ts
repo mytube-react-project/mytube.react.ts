@@ -3,8 +3,11 @@ import axios from 'axios';
 import { QueryKeyConsts } from 'libs/consts/qureyKey';
 import { AxiosError } from 'axios';
 import CustomAPiError from 'apis/@error';
+import { useSetRecoilState } from 'recoil';
+import { allCategoryAtom } from 'atoms/category/atom';
 
-const useGetFistCateListQuery = () => {
+const useGetAllCategoryQuery = () => {
+  const setAllCategory = useSetRecoilState(allCategoryAtom);
   const { data, isLoading, isSuccess, error, refetch } = useQuery(
     [QueryKeyConsts.GET_FIRST_CATE],
     () => axios.get('/api/cate').then((res) => res.data),
@@ -15,9 +18,7 @@ const useGetFistCateListQuery = () => {
       refetchInterval: false,
       refetchIntervalInBackground: false,
       onSuccess: (data: any) => {
-        for (const cate of data) {
-          cate.open = false;
-        }
+        setAllCategory(data);
       },
       onError: (error: AxiosError) => {
         new CustomAPiError(error.message, error);
@@ -28,4 +29,4 @@ const useGetFistCateListQuery = () => {
   return { data, isLoading, isSuccess, error, refetch };
 };
 
-export default useGetFistCateListQuery;
+export default useGetAllCategoryQuery;

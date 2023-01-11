@@ -28,6 +28,10 @@ export const Category = styled.div`
   line-height: ${({ theme }) => theme.lineHeight.xLarge};
 `;
 
+export const CategoryName = styled.div`
+  cursor: pointer;
+`;
+
 export const CategoryButton = styled.div`
   display: flex;
   font-size: ${({ theme }) => theme.fontSize.small};
