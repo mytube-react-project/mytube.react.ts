@@ -14,5 +14,4 @@ const useAddFirstCateMutate = () => {
     },
   });
 };
-
 export default useAddFirstCateMutate;
