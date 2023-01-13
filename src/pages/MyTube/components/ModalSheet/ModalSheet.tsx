@@ -3,13 +3,9 @@ import { Modal } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import CategoryBox from './CategoryBox/CategoryBox';
 import { KeyboardEvent } from 'react';
-import useGetAllCategoryQuery from 'queries/useGetAllCategory';
 
 function ModalSheet(props: any) {
   const { open } = props;
-
-  const { data: categoryList } = useGetAllCategoryQuery();
-  console.log(categoryList);
 
   const closeModal = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {

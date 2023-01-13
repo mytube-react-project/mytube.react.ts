@@ -4,8 +4,11 @@ import Input from 'components/Input/Input';
 import useAddFirstCateMutate from 'queries/FirstCateQueries/useAddFirstCateMutate';
 import useUpdateFirstCateMutate from 'queries/FirstCateQueries/useUpdateFirstCateMutate';
 import useDeleteFirstCateMutate from 'queries/FirstCateQueries/useDeleteFirstCateMutate';
+import useGetCateListQuery from 'queries/useGetAllCategory';
+import { useQueryClient } from '@tanstack/react-query';
+import { QueryKeyConsts } from 'libs/consts/qureyKey';
 import { useRecoilState } from 'recoil';
-import { firstCategoryIdAtom, allCategoryAtom } from 'atoms/category/atom';
+import { firstCategoryIdAtom } from 'atoms/category/atom';
 
 type CategoryType = {
   id: number;
@@ -18,19 +21,18 @@ function FirstCategoryBox() {
   // FIXME: 커스텀 훅 분리 필요
   const [open, setOpen] = useState(false);
   const [inputText, setInputText] = useState('');
-
   const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
-  const [allCategory, setAllCategory] = useRecoilState(allCategoryAtom);
 
-  const [categoryList, setCategoryList] = useState<CategoryType[]>([]);
-
+  const { data: categoryList } = useGetCateListQuery();
+  const qureyClient = useQueryClient();
   const addFirstCategory = useAddFirstCateMutate();
   const updateFirstCategory = useUpdateFirstCateMutate();
   const deleteFirstCategory = useDeleteFirstCateMutate();
 
   useEffect(() => {
-    setCategoryList([...allCategory]);
-  }, []);
+    if (!categoryList) return;
+    setFirstCategoryId(categoryList[0].id);
+  }, [categoryList]);
 
   const openInput = () => {
     setOpen(!open);
@@ -54,17 +56,11 @@ function FirstCategoryBox() {
     }
   };
 
-  // FIXME: recoil로 open 데이터 관리하기
   const editCategory = (id: number) => {
-    const category_copy = [...categoryList];
-    const selectedCategory = category_copy.find((cate) => cate.id === id);
-    if (!selectedCategory) return;
-
-    // category_copy.forEach((cate) => {
-    //   cate.open = selectedCategory.id !== id && false;
-    // });
-    selectedCategory.open = !selectedCategory.open;
-    setCategoryList(category_copy);
+    const newCategoryList = categoryList.map((cate: any) => {
+      return cate.id === id ? { ...cate, edit: !cate.edit } : { ...cate, edit: false };
+    });
+    qureyClient.setQueryData([QueryKeyConsts.GET_ALL_CATE], newCategoryList);
   };
 
   const updateCategory = (id: number, event: KeyboardEvent<HTMLInputElement>) => {
@@ -72,7 +68,6 @@ function FirstCategoryBox() {
     if (event.key === 'Enter') {
       event.preventDefault();
       updateFirstCategory.mutate({ id: id, name: inputText });
-      editCategory(id);
     }
   };
 
@@ -92,8 +87,8 @@ function FirstCategoryBox() {
             onKeyDown={addCategory}
           />
         )}
-        {categoryList.map((value) =>
-          value.open ? (
+        {categoryList.map((value: any) =>
+          value.edit ? (
             <Input
               key={value.id}
               inputSize="medium"

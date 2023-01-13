@@ -7,7 +7,7 @@ const useAddFirstCateMutate = () => {
   const queryClient = useQueryClient();
   return useMutation((data: any) => axios.post('/api/cate', data).then((res) => res.data), {
     onSuccess: () => {
-      queryClient.invalidateQueries([QueryKeyConsts.GET_FIRST_CATE]);
+      queryClient.invalidateQueries([QueryKeyConsts.GET_ALL_CATE]);
     },
     onError: (error: AxiosError) => {
       new CustomAPiError(error.message, error);

@@ -1,11 +1,13 @@
 import * as S from './style';
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useState, useEffect } from 'react';
 import Input from 'components/Input/Input';
 import useAddSecondCateMutate from 'queries/SecondCateQueries/useAddSecondCateMutate';
 import useUpdateSecondCateMutate from 'queries/SecondCateQueries/useUpdateSecondCateMutate';
 import useDeleteSecondCateMutate from 'queries/SecondCateQueries/useDeleteSecondCateMutate';
 import { useRecoilState } from 'recoil';
 import { firstCategoryIdAtom } from 'atoms/category/atom';
+import useGetCateListQuery from 'queries/useGetAllCategory';
+import { useQueryClient } from '@tanstack/react-query';
 
 type CategoryType = {
   id: number;
@@ -16,13 +18,22 @@ type CategoryType = {
 function SecondCategoryBox() {
   const [open, setOpen] = useState(false);
   const [inputText, setInputText] = useState('');
+  const [secondCategoryList, setSecondCategoryList] = useState([]);
 
   const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
-  const [secondCategoryList, setSecondCategoryList] = useState<CategoryType[]>([]);
+
+  const { data: categoryList } = useGetCateListQuery();
+  const qureyClient = useQueryClient();
 
   const addSecondCategory = useAddSecondCateMutate();
   const updateSecondCategory = useUpdateSecondCateMutate();
   const deleteSecondCategory = useDeleteSecondCateMutate();
+
+  useEffect(() => {
+    categoryList.find(
+      (cate: any) => cate.id === firstCategoryId && setSecondCategoryList(cate.children),
+    );
+  }, [firstCategoryId]);
 
   const openInput = () => {
     setOpen(!open);
@@ -43,14 +54,15 @@ function SecondCategoryBox() {
   };
 
   const editCategory = (id: number) => {
-    const category_copy = [...secondCategoryList];
-    const selectedCategory = category_copy.find((cate) => cate.id === id);
-    if (!selectedCategory) return;
-    category_copy.forEach((cate) => {
-      cate.open = selectedCategory.id !== id && false;
+    const result = secondCategoryList.map((cate: any) => {
+      return cate.id === id ? { ...cate, edit: !cate.edit } : { ...cate, edit: false };
     });
-    selectedCategory.open = !selectedCategory.open;
-    setSecondCategoryList(category_copy);
+
+    const newCategoryList = [...categoryList];
+    newCategoryList.forEach((cate) => cate.id === firstCategoryId && (cate.children = result));
+
+    console.log(newCategoryList);
+    // qureyClient.setQueryData([QueryKeyConsts.GET_ALL_CATE], newCategoryList);
   };
 
   const updateCategory = (id: number, event: KeyboardEvent<HTMLInputElement>) => {
@@ -78,8 +90,8 @@ function SecondCategoryBox() {
             onKeyDown={addCategory}
           />
         )}
-        {secondCategoryList.map((value) =>
-          value.open ? (
+        {secondCategoryList.map((value: any) =>
+          value.edit ? (
             <Input
               key={value.id}
               inputSize="medium"

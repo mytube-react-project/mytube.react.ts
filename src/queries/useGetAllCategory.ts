@@ -3,13 +3,11 @@ import axios from 'axios';
 import { QueryKeyConsts } from 'libs/consts/qureyKey';
 import { AxiosError } from 'axios';
 import CustomAPiError from 'apis/@error';
-import { useSetRecoilState } from 'recoil';
-import { allCategoryAtom } from 'atoms/category/atom';
 
 const useGetAllCategoryQuery = () => {
   const queryClient = useQueryClient();
   const { data, isLoading, isSuccess, error, refetch } = useQuery(
-    [QueryKeyConsts.GET_FIRST_CATE],
+    [QueryKeyConsts.GET_ALL_CATE],
     () => axios.get('/api/cate').then((res) => res.data),
     {
       refetchOnWindowFocus: false,
@@ -19,12 +17,19 @@ const useGetAllCategoryQuery = () => {
       refetchIntervalInBackground: false,
       onSuccess: (data: any) => {
         queryClient.setQueriesData(
-          [QueryKeyConsts.GET_FIRST_CATE],
+          [QueryKeyConsts.GET_ALL_CATE],
+          // FIXME : 리팩토링 필요
           data.map((item: any) => {
-            // children edit 추가해야함
+            const new_item = item.children.map((cate: any) => {
+              return {
+                ...cate,
+                edit: false,
+              };
+            });
             return {
               ...item,
-              open: false,
+              children: new_item,
+              open: true,
               edit: false,
             };
           }),

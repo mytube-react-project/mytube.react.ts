@@ -1,14 +1,10 @@
 import * as S from './style';
 import { MenuItem } from '@mui/material';
 import SubCategories from './SubCategories/SubCategories';
-import React, { useState } from 'react';
+import React from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import useGetCateListQuery from 'queries/useGetAllCategory';
-import { firstCategoryIdAtom, allCategoryAtom } from 'atoms/category/atom';
-import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
-import { allCategorySelector } from 'atoms/category/selector';
 import { useQueryClient } from '@tanstack/react-query';
 import { QueryKeyConsts } from 'libs/consts/qureyKey';
 
@@ -28,10 +24,6 @@ function Categories() {
   const { data: categoryList } = useGetCateListQuery();
   const qureyClient = useQueryClient();
 
-  // const [allCategories, setAllCategories] = useRecoilState(allCategorySelector);
-
-  console.log(categoryList);
-
   const onToggleCategory = (id: number) => {
     const newCategoryList = categoryList.map((cate: CategoryType) => {
       if (cate.id === id) {
@@ -39,7 +31,7 @@ function Categories() {
       }
       return cate;
     });
-    qureyClient.setQueryData([QueryKeyConsts.GET_FIRST_CATE], newCategoryList);
+    qureyClient.setQueryData([QueryKeyConsts.GET_ALL_CATE], newCategoryList);
   };
 
   return (
@@ -53,7 +45,7 @@ function Categories() {
               {cate.open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </MenuItem>
             <SubCategories visibility={cate.open}>
-              {cate.children.map((data: any) => (
+              {cate.children?.map((data: any) => (
                 <MenuItem style={{ fontSize: '14px' }} key={data.id}>
                   {data.cate}
                 </MenuItem>
