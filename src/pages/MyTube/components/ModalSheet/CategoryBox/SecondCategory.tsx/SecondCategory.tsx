@@ -10,12 +10,6 @@ import useGetCateListQuery from 'queries/useGetAllCategory';
 import { useQueryClient } from '@tanstack/react-query';
 import useInput from 'pages/Main/hooks/useInput';
 
-type CategoryType = {
-  id: number;
-  cate: string;
-  open: boolean;
-};
-
 function SecondCategoryBox() {
   const [open, setOpen] = useState(false);
   const createInput = useInput('');
@@ -53,7 +47,9 @@ function SecondCategoryBox() {
 
   const editCategory = (id: number) => {
     const result = secondCategoryList.map((cate: any) => {
-      return cate.id === id ? { ...cate, edit: !cate.edit } : { ...cate, edit: false };
+      return cate.id === id
+        ? { ...cate, isSelected: !cate.isSelected }
+        : { ...cate, isSelected: false };
     });
 
     const newCategoryList = [...categoryList];
@@ -89,7 +85,7 @@ function SecondCategoryBox() {
           />
         )}
         {secondCategoryList.map((value: any) =>
-          value.edit ? (
+          value.isSelected ? (
             <Input
               key={value.id}
               inputSize="medium"

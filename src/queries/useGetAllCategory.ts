@@ -23,14 +23,14 @@ const useGetAllCategoryQuery = () => {
             const new_item = item.children.map((cate: any) => {
               return {
                 ...cate,
-                edit: false,
+                isSelected: false,
               };
             });
             return {
               ...item,
               children: new_item,
-              open: true,
-              edit: false,
+              isToggleOn: true,
+              isSelected: false,
             };
           }),
         );

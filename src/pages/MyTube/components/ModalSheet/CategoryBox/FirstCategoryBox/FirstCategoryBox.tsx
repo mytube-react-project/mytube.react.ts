@@ -11,13 +11,6 @@ import { useRecoilState } from 'recoil';
 import { firstCategoryIdAtom } from 'atoms/category/atom';
 import useInput from 'pages/Main/hooks/useInput';
 
-type CategoryType = {
-  id: number;
-  name: string;
-  children: [];
-  open: boolean;
-};
-
 function FirstCategoryBox() {
   // FIXME: 커스텀 훅 분리 필요
   const [open, setOpen] = useState(false);
@@ -56,7 +49,9 @@ function FirstCategoryBox() {
 
   const editCategory = (id: number) => {
     const newCategoryList = categoryList.map((cate: any) => {
-      return cate.id === id ? { ...cate, edit: !cate.edit } : { ...cate, edit: false };
+      return cate.id === id
+        ? { ...cate, isSelected: !cate.isSelected }
+        : { ...cate, isSelected: false };
     });
     qureyClient.setQueryData([QueryKeyConsts.GET_ALL_CATE], newCategoryList);
   };
@@ -86,7 +81,7 @@ function FirstCategoryBox() {
           />
         )}
         {categoryList.map((value: any) =>
-          value.edit ? (
+          value.isSelected ? (
             <Input
               key={value.id}
               inputSize="medium"

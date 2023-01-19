@@ -7,27 +7,16 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import useGetCateListQuery from 'queries/useGetAllCategory';
 import { useQueryClient } from '@tanstack/react-query';
 import { QueryKeyConsts } from 'libs/consts/qureyKey';
-
-type CategoryChildrenType = {
-  id: number;
-  cate: string;
-};
-
-type CategoryType = {
-  id: number;
-  name: string;
-  open: boolean;
-  children: Array<CategoryChildrenType>;
-};
+import { FirstCategoryType } from 'types/Category';
 
 function Categories() {
   const { data: categoryList } = useGetCateListQuery();
   const qureyClient = useQueryClient();
 
   const onToggleCategory = (id: number) => {
-    const newCategoryList = categoryList.map((cate: CategoryType) => {
+    const newCategoryList = categoryList.map((cate: FirstCategoryType) => {
       if (cate.id === id) {
-        return { ...cate, open: !cate.open };
+        return { ...cate, isToggleOn: !cate.isToggleOn };
       }
       return cate;
     });
@@ -42,9 +31,9 @@ function Categories() {
           <React.Fragment key={cate.id}>
             <MenuItem className="firstCategory" onClick={() => onToggleCategory(cate.id)}>
               {cate.name}
-              {cate.open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+              {cate.isToggleOn ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </MenuItem>
-            <SubCategories visibility={cate.open}>
+            <SubCategories visibility={cate.isToggleOn}>
               {cate.children?.map((data: any) => (
                 <MenuItem style={{ fontSize: '14px' }} key={data.id}>
                   {data.cate}
