@@ -1,6 +1,6 @@
 import FirstCategoryBox from './FirstCategoryBox/FirstCategoryBox';
-import SecondCategoryBox from './SecondCategory.tsx/SecondCategory';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import SecondCategoryBox from './SecondCategoryBox/SecondCategory';
 
 function CategoryBox() {
   return (
