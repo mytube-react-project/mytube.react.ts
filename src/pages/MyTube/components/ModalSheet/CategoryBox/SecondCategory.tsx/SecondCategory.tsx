@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil';
 import { firstCategoryIdAtom } from 'atoms/category/atom';
 import useGetCateListQuery from 'queries/useGetAllCategory';
 import { useQueryClient } from '@tanstack/react-query';
+import useInput from 'pages/Main/hooks/useInput';
 
 type CategoryType = {
   id: number;
@@ -17,7 +18,9 @@ type CategoryType = {
 
 function SecondCategoryBox() {
   const [open, setOpen] = useState(false);
-  const [inputText, setInputText] = useState('');
+  const createInput = useInput('');
+  const updateInput = useInput('');
+
   const [secondCategoryList, setSecondCategoryList] = useState([]);
 
   const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
@@ -39,16 +42,11 @@ function SecondCategoryBox() {
     setOpen(!open);
   };
 
-  const onChangeValue = (event: any) => {
-    const text = event.target.value.trim();
-    setInputText(text);
-  };
-
   const addCategory = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.nativeEvent.isComposing || !inputText) return;
+    if (event.nativeEvent.isComposing || !createInput.value) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      addSecondCategory.mutate({ id: firstCategoryId, cate: inputText });
+      addSecondCategory.mutate({ id: firstCategoryId, cate: createInput.value });
       setOpen(false);
     }
   };
@@ -69,7 +67,7 @@ function SecondCategoryBox() {
     if (event.nativeEvent.isComposing) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      updateSecondCategory.mutate({ id: firstCategoryId, secondId: id, cate: inputText });
+      updateSecondCategory.mutate({ id: firstCategoryId, secondId: id, cate: updateInput.value });
       editCategory(id);
     }
   };
@@ -86,7 +84,7 @@ function SecondCategoryBox() {
           <Input
             inputSize="medium"
             shape="square"
-            onChange={onChangeValue}
+            onChange={createInput.onChange}
             onKeyDown={addCategory}
           />
         )}
@@ -97,7 +95,7 @@ function SecondCategoryBox() {
               inputSize="medium"
               shape="square"
               defaultValue={value.cate}
-              onChange={onChangeValue}
+              onChange={updateInput.onChange}
               onKeyDown={(e) => updateCategory(value.id, e)}
             />
           ) : (

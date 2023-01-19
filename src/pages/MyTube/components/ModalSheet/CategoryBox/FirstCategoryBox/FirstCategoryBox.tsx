@@ -9,6 +9,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { QueryKeyConsts } from 'libs/consts/qureyKey';
 import { useRecoilState } from 'recoil';
 import { firstCategoryIdAtom } from 'atoms/category/atom';
+import useInput from 'pages/Main/hooks/useInput';
 
 type CategoryType = {
   id: number;
@@ -20,7 +21,9 @@ type CategoryType = {
 function FirstCategoryBox() {
   // FIXME: 커스텀 훅 분리 필요
   const [open, setOpen] = useState(false);
-  const [inputText, setInputText] = useState('');
+  const createInput = useInput('');
+  const updateInput = useInput('');
+
   const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
 
   const { data: categoryList } = useGetCateListQuery();
@@ -38,20 +41,15 @@ function FirstCategoryBox() {
     setOpen(!open);
   };
 
-  const onChangeValue = (event: any) => {
-    const text = event.target.value.trim();
-    setInputText(text);
-  };
-
   const clickHandler = (id: number) => {
     setFirstCategoryId(id);
   };
 
   const addCategory = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.nativeEvent.isComposing || !inputText) return;
+    if (event.nativeEvent.isComposing || !createInput.value) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      addFirstCategory.mutate({ name: inputText });
+      addFirstCategory.mutate({ name: createInput.value });
       setOpen(false);
     }
   };
@@ -67,7 +65,7 @@ function FirstCategoryBox() {
     if (event.nativeEvent.isComposing) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      updateFirstCategory.mutate({ id: id, name: inputText });
+      updateFirstCategory.mutate({ id: id, name: updateInput.value });
     }
   };
 
@@ -83,7 +81,7 @@ function FirstCategoryBox() {
           <Input
             inputSize="medium"
             shape="square"
-            onChange={onChangeValue}
+            onChange={createInput.onChange}
             onKeyDown={addCategory}
           />
         )}
@@ -94,7 +92,7 @@ function FirstCategoryBox() {
               inputSize="medium"
               shape="square"
               defaultValue={value.name}
-              onChange={onChangeValue}
+              onChange={updateInput.onChange}
               onKeyDown={(e) => updateCategory(value.id, e)}
             />
           ) : (
