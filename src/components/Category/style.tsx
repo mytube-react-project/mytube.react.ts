@@ -26,6 +26,7 @@ export const Category = styled.div`
   ${flexJustifyBetween}
   padding: 5px;
   line-height: ${({ theme }) => theme.lineHeight.xLarge};
+  cursor: pointer;
 `;
 
 export const CategoryButton = styled.div`

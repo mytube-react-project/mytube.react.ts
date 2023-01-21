@@ -5,12 +5,12 @@ import ModalSheet from '../ModalSheet/ModalSheet';
 import * as S from './style';
 
 function Nav() {
-  const [show, setShow] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <S.NavWrapper>
-      {show && <ModalSheet open={setShow} />}
-      <div onClick={() => setShow(true)}>
+      {isOpen && <ModalSheet isOpen={setIsOpen} />}
+      <div onClick={() => setIsOpen(true)}>
         <p>Create Your Category</p>
         <PlaylistAddIcon />
       </div>

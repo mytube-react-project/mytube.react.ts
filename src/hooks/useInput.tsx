@@ -10,7 +10,7 @@ const useInput = (
   const [value, setValue] = useState<any>(initialValue);
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
-    setValue(event.target.value);
+    setValue(event.target.value.trim());
   };
 
   return [value, onChange, setValue];

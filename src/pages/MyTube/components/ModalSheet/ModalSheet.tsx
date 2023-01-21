@@ -1,15 +1,15 @@
 import * as S from './style';
 import { Modal } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import CategoryBox from './CategoryBox/CategoryBox';
+import CategoryBox from './settingCategory';
 import { KeyboardEvent } from 'react';
 
 function ModalSheet(props: any) {
-  const { open } = props;
+  const { isOpen } = props;
 
   const closeModal = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      open(false);
+      isOpen(false);
     }
   };
 
@@ -18,7 +18,7 @@ function ModalSheet(props: any) {
       <S.Sheet onKeyDown={closeModal}>
         <S.SheetHeader>
           <p>Create Category</p>
-          <button onClick={() => open(false)}>
+          <button onClick={() => isOpen(false)}>
             <ClearIcon />
           </button>
         </S.SheetHeader>
@@ -31,6 +31,3 @@ function ModalSheet(props: any) {
 }
 
 export default ModalSheet;
-function useGetCateListQuery(): { data: any } {
-  throw new Error('Function not implemented.');
-}

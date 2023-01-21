@@ -10,55 +10,64 @@ import useGetCateListQuery from 'queries/useGetAllCategory';
 import { useQueryClient } from '@tanstack/react-query';
 import Category from 'components/Category/Category';
 import { QueryKeyConsts } from 'libs/consts/qureyKey';
+import useInput from 'hooks/useInput';
+import useToggle from 'pages/MyTube/hooks/useToggle';
+import { FirstCategoryType, SecondCategoryType } from 'types/Category';
 
-function SecondCategoryBox() {
-  const [open, setOpen] = useState(false);
-  const [inputText, setInputText] = useState('');
+function SecondCategory() {
+  const [isOpen, isOpenAction] = useToggle(false);
+  const [inputText, onChangeInput, setValue] = useInput('');
+  const [isSucceeded, setIsSucceeded] = useState(false);
+
   const firstCategoryId = useRecoilValue(firstCategoryIdAtom);
 
   const { data: categoryList } = useGetCateListQuery();
-  const qureyClient = useQueryClient();
-
+  const queryClient = useQueryClient();
   const addSecondCategory = useAddSecondCateMutate();
   const updateSecondCategory = useUpdateSecondCateMutate();
   const deleteSecondCategory = useDeleteSecondCateMutate();
 
-  const openInput = () => {
-    setOpen(!open);
-  };
-
-  const onChangeValue = (event: any) => {
-    const text = event.target.value.trim();
-    setInputText(text);
-  };
+  useEffect(() => {
+    if (!categoryList) return;
+  }, [isSucceeded]);
 
   const addCategory = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.nativeEvent.isComposing || !inputText) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      addSecondCategory.mutate({ id: firstCategoryId, cate: inputText });
-      setOpen(false);
+      addSecondCategory.mutate(
+        { id: firstCategoryId, cate: inputText },
+        {
+          onSuccess: () => {
+            queryClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
+            isOpenAction();
+          },
+        },
+      );
     }
+    setValue('');
   };
-
-  useEffect(() => {
-    console.log('?');
-  }, [categoryList]);
 
   const editCategory = (id: number) => {
     const new_categoryList = [...categoryList];
     const selectSecondCate = new_categoryList.find(
-      (cate: any) => cate.id === firstCategoryId,
+      (firstCate: FirstCategoryType) => firstCate.id === firstCategoryId,
     ).children;
 
     for (const secondCate of selectSecondCate) {
       if (secondCate.id === id) {
-        secondCate.edit = true;
+        secondCate.isSelected = true;
       } else {
-        secondCate.edit = false;
+        secondCate.isSelected = false;
       }
     }
-    qureyClient.setQueryData([QueryKeyConsts.GET_ALL_CATE], new_categoryList);
+    queryClient.setQueryData(
+      [QueryKeyConsts.GET_ALL_CATE],
+      (new_categoryList: FirstCategoryType | undefined) => {
+        setIsSucceeded(true);
+        return new_categoryList;
+      },
+    );
   };
 
   const updateCategory = (id: number, inputText: string) => {
@@ -66,11 +75,10 @@ function SecondCategoryBox() {
       { id: firstCategoryId, secondId: id, cate: inputText },
       {
         onSuccess: () => {
-          qureyClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
+          queryClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
         },
       },
     );
-    editCategory(id);
   };
 
   const deleteCategory = (id: number) => {
@@ -78,7 +86,7 @@ function SecondCategoryBox() {
       { id: firstCategoryId, secondId: id },
       {
         onSuccess: () => {
-          qureyClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
+          queryClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
         },
       },
     );
@@ -86,28 +94,28 @@ function SecondCategoryBox() {
 
   return (
     <S.CategoryBox>
-      <S.Title onClick={openInput}>Second Category +</S.Title>
+      <S.Title onClick={isOpenAction}>Second Category +</S.Title>
       <>
-        {open && (
+        {isOpen && (
           <Input
             inputSize="medium"
             shape="square"
-            onChange={onChangeValue}
+            onChange={onChangeInput}
             onKeyDown={addCategory}
           />
         )}
         {categoryList &&
           categoryList
-            .find((cate: any) => cate.id === firstCategoryId)
-            ?.children.map((secondCate: any) => (
+            .find((firstCate: FirstCategoryType) => firstCate.id === firstCategoryId)
+            ?.children.map((secondCate: SecondCategoryType) => (
               <Category
-                edit={secondCate.edit}
-                cate={secondCate.cate}
                 id={secondCate.id}
                 key={secondCate.id}
+                categoryName={secondCate.cate}
                 editCategory={editCategory}
                 updateCategory={updateCategory}
                 deleteCategory={deleteCategory}
+                isSelected={secondCate.isSelected}
               />
             ))}
       </>
@@ -115,4 +123,4 @@ function SecondCategoryBox() {
   );
 }
 
-export default SecondCategoryBox;
+export default SecondCategory;
