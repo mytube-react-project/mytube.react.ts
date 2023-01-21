@@ -75,7 +75,6 @@ function SecondCategoryBox() {
         },
       },
     );
-    editCategory(id);
   };
 
   const deleteCategory = (id: number) => {

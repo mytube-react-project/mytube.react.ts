@@ -3,12 +3,34 @@ import * as S from './style';
 import { KeyboardEvent } from 'react';
 import useInput from 'hooks/useInput';
 
-const Category = (props: any) => {
-  const { edit, cate, id, editCategory, updateCategory, deleteCategory } = props;
+interface CategoryProps {
+  id: any;
+  cate: string;
+  edit: boolean;
+  selectCategory?: any;
+  editCategory: any;
+  updateCategory: any;
+  deleteCategory: any;
+}
+
+const Category = ({
+  id,
+  cate,
+  edit,
+  selectCategory,
+  editCategory,
+  updateCategory,
+  deleteCategory,
+}: CategoryProps) => {
   const [cateInput, onChangeCateInput] = useInput(cate);
 
+  const onSelectCategory = () => {
+    if (!selectCategory) return;
+    selectCategory(id);
+  };
+
   const onEditCategory = () => {
-    editCategory(props.id);
+    editCategory(id);
   };
 
   const onUpdateCategory = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -36,15 +58,13 @@ const Category = (props: any) => {
   }
 
   return (
-    <>
-      <S.Category>
-        {cate}
-        <S.CategoryButton>
-          <S.CategoryEditButton onClick={onEditCategory}>⚙️</S.CategoryEditButton>
-          <S.CategoryDeleteButton onClick={onDeleteCategory}>🗑️</S.CategoryDeleteButton>
-        </S.CategoryButton>
-      </S.Category>
-    </>
+    <S.Category>
+      <div onClick={onSelectCategory}>{cate}</div>
+      <S.CategoryButton>
+        <S.CategoryEditButton onClick={onEditCategory}>⚙️</S.CategoryEditButton>
+        <S.CategoryDeleteButton onClick={onDeleteCategory}>🗑️</S.CategoryDeleteButton>
+      </S.CategoryButton>
+    </S.Category>
   );
 };
 export default Category;
