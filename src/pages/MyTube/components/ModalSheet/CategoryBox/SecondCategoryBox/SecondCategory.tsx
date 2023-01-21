@@ -10,17 +10,18 @@ import useGetCateListQuery from 'queries/useGetAllCategory';
 import { useQueryClient } from '@tanstack/react-query';
 import Category from 'components/Category/Category';
 import { QueryKeyConsts } from 'libs/consts/qureyKey';
+import useInput from 'hooks/useInput';
+import useToggle from 'pages/MyTube/hooks/useToggle';
 
 function SecondCategoryBox() {
-  const [open, setOpen] = useState(false);
-  const [inputText, setInputText] = useState('');
+  const [isOpen, isOpenAction] = useToggle(false);
+  const [inputText, onChangeInput, setValue] = useInput('');
   const [isSucceeded, setIsSucceeded] = useState(false);
 
   const firstCategoryId = useRecoilValue(firstCategoryIdAtom);
 
   const { data: categoryList } = useGetCateListQuery();
   const queryClient = useQueryClient();
-
   const addSecondCategory = useAddSecondCateMutate();
   const updateSecondCategory = useUpdateSecondCateMutate();
   const deleteSecondCategory = useDeleteSecondCateMutate();
@@ -29,22 +30,21 @@ function SecondCategoryBox() {
     if (!categoryList) return;
   }, [isSucceeded]);
 
-  const openInput = () => {
-    setOpen(!open);
-  };
-
-  const onChangeValue = (event: any) => {
-    const text = event.target.value.trim();
-    setInputText(text);
-  };
-
   const addCategory = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.nativeEvent.isComposing || !inputText) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      addSecondCategory.mutate({ id: firstCategoryId, cate: inputText });
-      setOpen(false);
+      addSecondCategory.mutate(
+        { id: firstCategoryId, cate: inputText },
+        {
+          onSuccess: () => {
+            queryClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
+            isOpenAction();
+          },
+        },
+      );
     }
+    setValue('');
   };
 
   const editCategory = (id: number) => {
@@ -90,13 +90,13 @@ function SecondCategoryBox() {
 
   return (
     <S.CategoryBox>
-      <S.Title onClick={openInput}>Second Category +</S.Title>
+      <S.Title onClick={isOpenAction}>Second Category +</S.Title>
       <>
-        {open && (
+        {isOpen && (
           <Input
             inputSize="medium"
             shape="square"
-            onChange={onChangeValue}
+            onChange={onChangeInput}
             onKeyDown={addCategory}
           />
         )}

@@ -1,5 +1,5 @@
 import * as S from './style';
-import { KeyboardEvent, useState, useEffect } from 'react';
+import { KeyboardEvent, useEffect } from 'react';
 import Input from 'components/Input/Input';
 import useAddFirstCateMutate from 'queries/FirstCateQueries/useAddFirstCateMutate';
 import useUpdateFirstCateMutate from 'queries/FirstCateQueries/useUpdateFirstCateMutate';
@@ -10,18 +10,12 @@ import { QueryKeyConsts } from 'libs/consts/qureyKey';
 import { useRecoilState } from 'recoil';
 import { firstCategoryIdAtom } from 'atoms/category/atom';
 import Category from 'components/Category/Category';
-
-type CategoryType = {
-  id: number;
-  name: string;
-  children: [];
-  open: boolean;
-};
+import useInput from 'hooks/useInput';
+import useToggle from 'pages/MyTube/hooks/useToggle';
 
 function FirstCategoryBox() {
-  // FIXME: 커스텀 훅 분리 필요
-  const [open, setOpen] = useState(false);
-  const [inputText, setInputText] = useState('');
+  const [isOpen, isOpenAction] = useToggle(false);
+  const [inputText, onChangeInput, setValue] = useInput('');
   const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
 
   const { data: categoryList } = useGetCateListQuery();
@@ -35,15 +29,6 @@ function FirstCategoryBox() {
     setFirstCategoryId(categoryList[0].id);
   }, []);
 
-  const openInput = () => {
-    setOpen(!open);
-  };
-
-  const onChangeValue = (event: any) => {
-    const text = event.target.value.trim();
-    setInputText(text);
-  };
-
   const selectCategory = (id: number) => {
     setFirstCategoryId(id);
   };
@@ -52,9 +37,17 @@ function FirstCategoryBox() {
     if (event.nativeEvent.isComposing || !inputText) return;
     if (event.key === 'Enter') {
       event.preventDefault();
-      addFirstCategory.mutate({ name: inputText });
-      setOpen(false);
+      addFirstCategory.mutate(
+        { name: inputText },
+        {
+          onSuccess: () => {
+            queryClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
+            isOpenAction();
+          },
+        },
+      );
     }
+    setValue('');
   };
 
   const editCategory = (id: number) => {
@@ -88,13 +81,13 @@ function FirstCategoryBox() {
 
   return (
     <S.CategoryBox>
-      <S.Title onClick={openInput}>First Category +</S.Title>
+      <S.Title onClick={isOpenAction}>First Category +</S.Title>
       <>
-        {open && (
+        {isOpen && (
           <Input
             inputSize="medium"
             shape="square"
-            onChange={onChangeValue}
+            onChange={onChangeInput}
             onKeyDown={addCategory}
           />
         )}
