@@ -5,8 +5,8 @@ import useInput from 'hooks/useInput';
 
 interface CategoryProps {
   id: any;
-  cate: string;
-  edit: boolean;
+  categoryName: string;
+  isSelected: boolean;
   selectCategory?: any;
   editCategory: any;
   updateCategory: any;
@@ -15,14 +15,14 @@ interface CategoryProps {
 
 const Category = ({
   id,
-  cate,
-  edit,
+  categoryName,
+  isSelected,
   selectCategory,
   editCategory,
   updateCategory,
   deleteCategory,
 }: CategoryProps) => {
-  const [cateInput, onChangeCateInput] = useInput(cate);
+  const [cateInput, onChangeCateInput] = useInput(categoryName);
 
   const onSelectCategory = () => {
     if (!selectCategory) return;
@@ -45,7 +45,7 @@ const Category = ({
     deleteCategory(id);
   };
 
-  if (edit) {
+  if (isSelected) {
     return (
       <Input
         inputSize="medium"
@@ -59,7 +59,7 @@ const Category = ({
 
   return (
     <S.Category>
-      <div onClick={onSelectCategory}>{cate}</div>
+      <div onClick={onSelectCategory}>{categoryName}</div>
       <S.CategoryButton>
         <S.CategoryEditButton onClick={onEditCategory}>⚙️</S.CategoryEditButton>
         <S.CategoryDeleteButton onClick={onDeleteCategory}>🗑️</S.CategoryDeleteButton>

@@ -12,8 +12,9 @@ import { firstCategoryIdAtom } from 'atoms/category/atom';
 import Category from 'components/Category/Category';
 import useInput from 'hooks/useInput';
 import useToggle from 'pages/MyTube/hooks/useToggle';
+import { FirstCategoryType } from 'types/Category';
 
-function FirstCategoryBox() {
+function FirstCategory() {
   const [isOpen, isOpenAction] = useToggle(false);
   const [inputText, onChangeInput, setValue] = useInput('');
   const [firstCategoryId, setFirstCategoryId] = useRecoilState(firstCategoryIdAtom);
@@ -51,8 +52,10 @@ function FirstCategoryBox() {
   };
 
   const editCategory = (id: number) => {
-    const newCategoryList = categoryList.map((cate: any) => {
-      return cate.id === id ? { ...cate, edit: !cate.edit } : { ...cate, edit: false };
+    const newCategoryList = categoryList.map((cate: FirstCategoryType) => {
+      return cate.id === id
+        ? { ...cate, isSelected: !cate.isSelected }
+        : { ...cate, isSelected: false };
     });
     queryClient.setQueryData([QueryKeyConsts.GET_ALL_CATE], newCategoryList);
   };
@@ -91,16 +94,16 @@ function FirstCategoryBox() {
             onKeyDown={addCategory}
           />
         )}
-        {categoryList.map((value: any) => (
+        {categoryList.map((firstCate: FirstCategoryType) => (
           <Category
-            edit={value.edit}
-            cate={value.name}
-            id={value.id}
-            key={value.id}
+            id={firstCate.id}
+            key={firstCate.id}
+            categoryName={firstCate.name}
             editCategory={editCategory}
             updateCategory={updateCategory}
             deleteCategory={deleteCategory}
             selectCategory={selectCategory}
+            isSelected={firstCate.isSelected}
           />
         ))}
       </>
@@ -108,4 +111,4 @@ function FirstCategoryBox() {
   );
 }
 
-export default FirstCategoryBox;
+export default FirstCategory;

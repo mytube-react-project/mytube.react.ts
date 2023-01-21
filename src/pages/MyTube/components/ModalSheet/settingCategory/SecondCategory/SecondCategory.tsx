@@ -12,8 +12,9 @@ import Category from 'components/Category/Category';
 import { QueryKeyConsts } from 'libs/consts/qureyKey';
 import useInput from 'hooks/useInput';
 import useToggle from 'pages/MyTube/hooks/useToggle';
+import { FirstCategoryType, SecondCategoryType } from 'types/Category';
 
-function SecondCategoryBox() {
+function SecondCategory() {
   const [isOpen, isOpenAction] = useToggle(false);
   const [inputText, onChangeInput, setValue] = useInput('');
   const [isSucceeded, setIsSucceeded] = useState(false);
@@ -50,20 +51,23 @@ function SecondCategoryBox() {
   const editCategory = (id: number) => {
     const new_categoryList = [...categoryList];
     const selectSecondCate = new_categoryList.find(
-      (cate: any) => cate.id === firstCategoryId,
+      (firstCate: FirstCategoryType) => firstCate.id === firstCategoryId,
     ).children;
 
     for (const secondCate of selectSecondCate) {
       if (secondCate.id === id) {
-        secondCate.edit = true;
+        secondCate.isSelected = true;
       } else {
-        secondCate.edit = false;
+        secondCate.isSelected = false;
       }
     }
-    queryClient.setQueryData([QueryKeyConsts.GET_ALL_CATE], (new_categoryList: any) => {
-      setIsSucceeded(true);
-      return new_categoryList;
-    });
+    queryClient.setQueryData(
+      [QueryKeyConsts.GET_ALL_CATE],
+      (new_categoryList: FirstCategoryType | undefined) => {
+        setIsSucceeded(true);
+        return new_categoryList;
+      },
+    );
   };
 
   const updateCategory = (id: number, inputText: string) => {
@@ -102,16 +106,16 @@ function SecondCategoryBox() {
         )}
         {categoryList &&
           categoryList
-            .find((cate: any) => cate.id === firstCategoryId)
-            ?.children.map((secondCate: any) => (
+            .find((firstCate: FirstCategoryType) => firstCate.id === firstCategoryId)
+            ?.children.map((secondCate: SecondCategoryType) => (
               <Category
-                edit={secondCate.edit}
-                cate={secondCate.cate}
                 id={secondCate.id}
                 key={secondCate.id}
+                categoryName={secondCate.cate}
                 editCategory={editCategory}
                 updateCategory={updateCategory}
                 deleteCategory={deleteCategory}
+                isSelected={secondCate.isSelected}
               />
             ))}
       </>
@@ -119,4 +123,4 @@ function SecondCategoryBox() {
   );
 }
 
-export default SecondCategoryBox;
+export default SecondCategory;
