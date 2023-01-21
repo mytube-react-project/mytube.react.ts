@@ -14,14 +14,20 @@ import { QueryKeyConsts } from 'libs/consts/qureyKey';
 function SecondCategoryBox() {
   const [open, setOpen] = useState(false);
   const [inputText, setInputText] = useState('');
+  const [isSucceeded, setIsSucceeded] = useState(false);
+
   const firstCategoryId = useRecoilValue(firstCategoryIdAtom);
 
   const { data: categoryList } = useGetCateListQuery();
-  const qureyClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const addSecondCategory = useAddSecondCateMutate();
   const updateSecondCategory = useUpdateSecondCateMutate();
   const deleteSecondCategory = useDeleteSecondCateMutate();
+
+  useEffect(() => {
+    if (!categoryList) return;
+  }, [isSucceeded]);
 
   const openInput = () => {
     setOpen(!open);
@@ -41,10 +47,6 @@ function SecondCategoryBox() {
     }
   };
 
-  useEffect(() => {
-    console.log('?');
-  }, [categoryList]);
-
   const editCategory = (id: number) => {
     const new_categoryList = [...categoryList];
     const selectSecondCate = new_categoryList.find(
@@ -58,7 +60,10 @@ function SecondCategoryBox() {
         secondCate.edit = false;
       }
     }
-    qureyClient.setQueryData([QueryKeyConsts.GET_ALL_CATE], new_categoryList);
+    queryClient.setQueryData([QueryKeyConsts.GET_ALL_CATE], (new_categoryList: any) => {
+      setIsSucceeded(true);
+      return new_categoryList;
+    });
   };
 
   const updateCategory = (id: number, inputText: string) => {
@@ -66,7 +71,7 @@ function SecondCategoryBox() {
       { id: firstCategoryId, secondId: id, cate: inputText },
       {
         onSuccess: () => {
-          qureyClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
+          queryClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
         },
       },
     );
@@ -78,7 +83,7 @@ function SecondCategoryBox() {
       { id: firstCategoryId, secondId: id },
       {
         onSuccess: () => {
-          qureyClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
+          queryClient.fetchQuery([QueryKeyConsts.GET_ALL_CATE]);
         },
       },
     );

@@ -32,7 +32,7 @@ function FirstCategoryBox() {
   useEffect(() => {
     if (!categoryList) return;
     setFirstCategoryId(categoryList[0].id);
-  }, [categoryList]);
+  }, []);
 
   const openInput = () => {
     setOpen(!open);
